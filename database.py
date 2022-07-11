@@ -22,7 +22,7 @@ class DB_json:
     def __getitem__(self, key):
         try:
             with open(self.path, "r") as f:
-                return json.load(f)[item]
+                return json.load(f)[key]
         except KeyError:
             raise KeyError(f"Key in path {self.path} not found")
         except OSError:
