@@ -55,6 +55,12 @@ class DB_json:
         except OSError:
             raise KeyError(f"Path {self.path} not found")
 
+    def __contains__(self, key):
+        if self.cached:
+            return self.data.__contains__(key)
+        with open(self.path, "w") as f:
+            return json.load(f).__contains__(key)
+
     def dump(self, load):
         try:
             with open(self.path, "w") as f:
@@ -63,7 +69,6 @@ class DB_json:
                     f,
                     indent=4
                 )
-            break
         except OSError:
             os.makedirs(os.path.dirname(self.key))
             with open(self.path, "w") as f:
@@ -72,4 +77,3 @@ class DB_json:
                     f, 
                     indent=4
                 )
-            
